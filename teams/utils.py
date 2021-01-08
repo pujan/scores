@@ -1,9 +1,10 @@
 import datetime
+import json
+import logging
 
 import requests
-import json
 
-from django.core.mail import send_mass_mail
+log = None
 
 
 def data_from_22bet():
@@ -26,6 +27,7 @@ def data_from_22bet():
 
 
 def get_events(types):
+    log = get_logger('get_events')
     data = data_from_22bet()
 
     if not data['Success']:
@@ -33,6 +35,8 @@ def get_events(types):
 
     for event in data['Value']:
         if event['SN'] in types:
+            log.info('EVENT: %s', event)
+
             try:
                 team_home = event['O1E']
                 team_away = event['O2E']
@@ -49,6 +53,19 @@ def endpoint(url, context):
     if isinstance(context, dict):
         context = json.dumps(context)
 
-    auth = ('lukasz', 'ToHaselkoJest0K')
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json; indent=4'}
-    return requests.post(url, auth=auth, data=context, headers=headers)
+    return requests.post(url, data=context, headers=headers)
+
+
+def get_logger(name, filename='logs/tasks.log'):
+    global log
+
+    if log is not None:
+        return log
+
+    log = logging.Logger(name)
+    fh = logging.FileHandler(filename)
+    fh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+    log.addHandler(fh)
+
+    return log

@@ -61,8 +61,8 @@ def update_scores():
             kind = Kind.objects.get(name=type_[1])
         except Kind.DoesNotExist as exc:
             print(exc, type_)
-
             continue
+
         home_obj, h_create = Team.objects.get_or_create(name=home[0], defaults={'kind': kind})
         away_obj, a_create = Team.objects.get_or_create(name=away[0], defaults={'kind': kind})
         match_obj, m_created = Match.objects.get_or_create(team_home=home_obj, team_away=away_obj,
