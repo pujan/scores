@@ -1,0 +1,9 @@
+wheel
+Django==3.1.4
+djangorestframework==3.12.2
+psycopg2-binary==2.8.6
+pillow==8.1.0
+celery==5.0.5
+redis==3.5.3
+requests==2.25.1
+django-celery-beat==2.1.0
