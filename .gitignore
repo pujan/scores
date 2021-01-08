@@ -446,10 +446,6 @@ doc/images/*.eps
 doc/images/*.png
 doc/images/*.xcf
 
-# pdfs
-doc/images/classes_*.pdf
-doc/images/packages_*.pdf
-
 # scripts ZSh in doc directory
 doc/*.zsh
 
